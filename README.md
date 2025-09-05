@@ -12,6 +12,8 @@
 - **[Zod](https://zod.dev/)** – Buat validasi schema, form dengan React Hook Form, input.
 - **[Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction)** – State management yang simpel, cocok untuk global state yang tidak terkait server. Next.js App Router sudah bawa Context + Server Component, tapi untuk state client yang reaktif, zustand lebih praktis.
 - **[React Hook Form](https://react-hook-form.com/get-startedhttps://react-hook-form.com/get-started)** – Form handling yang ringan, performa tinggi, mudah digabung dengan Zod untuk validasi. Cocok buat form kompleks di Next.js (login, register, checkout).
+- **[JS Cookie](https://www.npmjs.com/package/js-cookie)** – Library sederhana untuk mengelola cookies di browser (set, get, remove). Berguna untuk menyimpan token/session di client-side.
+- **[JWT Decode](https://www.npmjs.com/package/jwt-decode#documentation)** – Utility untuk decode JWT (JSON Web Token) tanpa perlu verify di client, biasanya dipakai untuk membaca payload seperti userId, exp, atau roles.
 
 ---
 
@@ -57,7 +59,7 @@ Automatic-Essay-Scoring-Website-Frontend/
    npm run build
    ```
 
---- 
+---
 
 ## 🌱 Setup '.env'
 
@@ -96,7 +98,7 @@ lib/api/
   getTeams.ts
 ```
 
---- 
+---
 
 ## 🌿 Konvensi Penamaan Branch Kite
 
@@ -111,6 +113,7 @@ Pake format `type/nama-modul-keterangan`, contoh:
 ---
 
 ## 🗒️ Catatan :
+
 - Semua API call wajib di `lib/api/`
 - Validasi form atau data masukin ke `schemas/` pake Zod
 - Pakai global state cuma kalau perlu (misal: user info, session)
