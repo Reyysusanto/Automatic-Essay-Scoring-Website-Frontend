@@ -1,8 +1,5 @@
-const DashboardPage = () => {
-  return (
-    <div>
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-    </div>
-  );
-};
-export default DashboardPage;
+import UjianPage from "@/components/teachers/home/ujian-page";
+
+export default function Page() {
+  return <UjianPage />;
+}
