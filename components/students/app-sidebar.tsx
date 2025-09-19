@@ -1,34 +1,47 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { useState } from 'react';
+import { Sidebar, SidebarContent } from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { ChevronDown, ChevronRight } from 'lucide-react';
+import { useAuthStore } from '@/store/useStore';
+import Cookies from 'js-cookie';
+import { toast } from 'sonner';
 
 export const StudentsNav = [
   {
-    title: "Dashboard",
-    url: "/students/dashboard",
+    title: 'Dashboard',
+    url: '/students/dashboard',
   },
   {
-    title: "Ujian",
+    title: 'Ujian',
     children: [
-      { title: "Kerjakan", url: "/students/exams/do" },
-      { title: "Hasil", url: "/students/exams/result" },
-      { title: "Riwayat", url: "/students/exams/history" },
+      { title: 'Kerjakan', url: '/students/exams/do' },
+      { title: 'Hasil', url: '/students/exams/result' },
+      { title: 'Riwayat', url: '/students/exams/history' },
     ],
   },
   {
-    title: "Nilai",
-    url: "/students/scores",
+    title: 'Nilai',
+    url: '/students/scores',
   },
 ];
 
 export const AppSidebar = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+
+  const handleLogOut = () => {
+    const { clearAuth } = useAuthStore.getState();
+    clearAuth();
+    Cookies.remove('access_token', { sameSite: 'strict', secure: true });
+    Cookies.remove('refresh_token', { sameSite: 'strict', secure: true });
+    router.push('/login');
+    toast.error('Successfully logged out');
+  };
 
   return (
     <Sidebar className="bg-black w-64">
@@ -41,7 +54,7 @@ export const AppSidebar = () => {
               </h2>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col">
               {StudentsNav.map((nav) => {
                 const isActive =
                   pathname === nav.url ||
@@ -57,7 +70,7 @@ export const AppSidebar = () => {
                       <button
                         onClick={() => setOpenMenu(isOpen ? null : nav.title)}
                         className={`flex justify-between items-center w-full px-4 py-3 rounded-lg transition-colors duration-200 ${
-                          isActive ? "text-primary-color" : "text-black"
+                          isActive ? 'text-primary-color' : 'text-black'
                         }`}
                       >
                         <span>{nav.title}</span>
@@ -77,8 +90,8 @@ export const AppSidebar = () => {
                                 href={child.url}
                                 className={`px-2 py-1 text-sm rounded-md transition-colors ${
                                   childActive
-                                    ? "text-primary-color font-semibold"
-                                    : "text-gray-600 hover:text-primary-color"
+                                    ? 'text-primary-color font-semibold'
+                                    : 'text-gray-600 hover:text-primary-color'
                                 }`}
                               >
                                 {child.title}
@@ -97,8 +110,8 @@ export const AppSidebar = () => {
                     href={nav.url}
                     className={`px-4 py-3 rounded-lg transition-colors duration-200 ${
                       isActive
-                        ? "text-primary-color font-semibold"
-                        : "text-black hover:text-primary-color"
+                        ? 'text-primary-color font-semibold'
+                        : 'text-black hover:text-primary-color'
                     }`}
                   >
                     {nav.title}
@@ -109,6 +122,7 @@ export const AppSidebar = () => {
 
             <div className="mt-auto px-4">
               <Button
+                onClick={handleLogOut}
                 className="w-full bg-primary-color h-9 rounded-md text-white hover:bg-emerald-700 transition-colors"
                 variant="default"
                 size="sm"
