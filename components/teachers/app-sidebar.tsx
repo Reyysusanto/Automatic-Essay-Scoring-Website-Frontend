@@ -1,27 +1,40 @@
-"use client";
+'use client';
 
-import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Sidebar, SidebarContent } from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/useStore';
+import Cookies from 'js-cookie';
+import { toast } from 'sonner';
 
 export const TeachersNav = [
   {
-    title: "Dashboard",
-    url: "/teachers/dashboard",
+    title: 'Dashboard',
+    url: '/teachers/dashboard',
   },
   {
-    title: "Ujian",
-    url: "/teachers/exams",
+    title: 'Ujian',
+    url: '/teachers/exams',
   },
   {
-    title: "Nilai",
-    url: "/teachers/scores",
+    title: 'Nilai',
+    url: '/teachers/scores',
   },
 ];
 
 export const AppSidebar = () => {
+  const router = useRouter();
   const pathname = usePathname();
+
+  const handleLogOut = () => {
+    const { clearAuth } = useAuthStore.getState();
+    clearAuth();
+    Cookies.remove('access_token', { sameSite: 'strict', secure: true });
+    Cookies.remove('refresh_token', { sameSite: 'strict', secure: true });
+    router.push('/login');
+    toast.error('Successfully logged out');
+  };
 
   return (
     <>
@@ -44,7 +57,7 @@ export const AppSidebar = () => {
                       return (
                         <Link
                           className={`group/nav-item flex flex-row justify-start items-center cursor-pointer gap-4 px-4 py-3 w-full rounded-lg transition-colors duration-200 z-2 ${
-                            isActive ? "text-primary-color" : "hover:bg-white"
+                            isActive ? 'text-primary-color' : 'hover:bg-white'
                           }`}
                           key={nav.title}
                           href={nav.url}
@@ -52,15 +65,15 @@ export const AppSidebar = () => {
                           <nav
                             className={`transition-colors duration-200 ${
                               isActive
-                                ? "text-secondary-one"
-                                : "text-black group-hover/nav-item:text-secondary-one"
+                                ? 'text-secondary-one'
+                                : 'text-black group-hover/nav-item:text-secondary-one'
                             }`}
                           />
                           <p
                             className={`font-primary transition-colors duration-200 ${
                               isActive
-                                ? "text-secondary-one"
-                                : "text-black group-hover/nav-item:text-secondary-one"
+                                ? 'text-secondary-one'
+                                : 'text-black group-hover/nav-item:text-secondary-one'
                             }`}
                           >
                             {nav.title}
@@ -74,6 +87,7 @@ export const AppSidebar = () => {
               <div className="w-full">
                 <div className="mt-auto px-4">
                   <Button
+                    onClick={handleLogOut}
                     className="w-full bg-primary-color h-9 rounded-md text-white hover:bg-emerald-700 transition-colors"
                     variant="default"
                     size="sm"
