@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { MoreHorizontal, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React from 'react';
+import { MoreHorizontal, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface Ujian {
   id: string;
