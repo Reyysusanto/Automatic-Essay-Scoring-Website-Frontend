@@ -1,5 +1,5 @@
-import UjianPage from "@/components/teachers/home/ujian-page";
+const DashboardPage = () => {
+  return <div>Teacher Dashboard</div>;
+};
 
-export default function Page() {
-  return <UjianPage />;
-}
+export default DashboardPage;
